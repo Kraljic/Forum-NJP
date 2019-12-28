@@ -6,3 +6,8 @@
     - Admin ima potpune ovlasti na forumom, 
     - Moderator moze upravljati kategorijama i brisati komentare i dretve drugih korisnika.
     - User moze stvarati nove dretve i pisati komentare.
+
+## Autorizacija
+ Autorizacija se vrsi preko JWT (JsonWebToken) node modula.
+
+## TODO: Dodaj jos opisa...
