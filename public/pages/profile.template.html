@@ -1,0 +1,19 @@
+<div ng-if="c.profile">
+    <h2>Profile from: <strong>{{c.profile.user.username}}</strong></h2>
+    <div ng-show="!c.editFlag">
+        <p>First name: <strong>{{c.profile.firstName || '/'}}</strong></p>
+        <p>Last name: <strong>{{c.profile.lastName || '/'}}</strong></p>
+        <p>Role: <strong>{{c.profile.user.role || '/'}}</strong></p>
+        <p ng-if="c.profile.user.email">
+            Email: <strong>{{c.profile.user.email || '/'}}</strong></p>
+        </p>
+        <p>Bio:
+            <pre>{{c.profile.bio || '/'}}</pre>
+        </p>
+        <button class="btn btn-warning" ng-click="c.editFlag = true" ng-if="c.isMyProfile()">Edit</button>
+    </div>
+    <div ng-if="c.editFlag">
+        <profile-edit profile="c.profile"></profile-edit>
+        <button class="btn btn-warning" ng-click="c.editFlag = false">Cancle</button>
+    </div>
+</div>

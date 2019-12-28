@@ -1,0 +1,20 @@
+
+<a ui-sref='main'>Back</a>
+
+<div class="panel panel-secondary" ng-if="c.isAdmin">
+    <div class="panel-heading">
+        <h2>Modify Sections</h2>
+    </div>
+    <div class="panel-body">
+        <section-create></section-create>
+    </div>
+</div>
+
+<div class="panel panel-secondary" ng-if="c.isModerator">
+    <div class="panel-heading">
+        <h2>Modify Category</h2>
+    </div>
+    <div class="panel-body">
+        <category-create></category-create>
+    </div>
+</div>

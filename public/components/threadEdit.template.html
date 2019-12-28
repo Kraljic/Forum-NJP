@@ -1,0 +1,9 @@
+<div>
+    <form name="c.threadEditForm" ng-submit="c.editThread()" novalidate>
+        <label for="threadText">Thread text: {{c.threadEditForm.threadText.$viewValue.length || 0}} / 2048</label>
+        <textarea name="threadText" ng-model="c.newThread.threadText" placeholder="Thread text.." class="form-control"
+            ng-maxlength="2048" required></textarea>
+        <br>
+        <button class="btn btn-success pull-right" ng-disabled="!c.isFormValid()">Post</button>
+    </form>
+</div>

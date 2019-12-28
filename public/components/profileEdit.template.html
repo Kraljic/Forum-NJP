@@ -1,0 +1,20 @@
+<div>
+    <form name="c.profileForm" ng-submit="c.submitForm()" novalidate>
+        <label><b>First name:</b></label>
+        <input name="firstName" placeholder="First name" class="form-control" ng-model="c.newProfile.firstName"
+            ng-maxlength="45">
+        <br>
+
+        <label><b>Last name:</b></label>
+        <input name="lastName" placeholder="Last name" class="form-control" ng-model="c.newProfile.lastName"
+            ng-maxlength="45">
+        <br>
+
+        <label><b>Bio:</b></label>
+        <textarea name="bio" placeholder="Bio" rows="10" class="form-control" ng-model="c.newProfile.bio"
+            ng-maxlength="255"></textarea>
+        <br>
+
+        <button class="btn btn-success pull-right" ng-disabled="!c.isFormValid()">Save</button>
+    </form>
+</div>

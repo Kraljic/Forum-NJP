@@ -1,0 +1,47 @@
+<div class="well" class="comment" id="{{c.comment._id}}">
+    <div class="row">
+        <div class="col-sm-11">
+            by <strong>{{c.comment.createdBy.username}}</strong> @ {{c.comment.datetime | unifiedDate}}
+            <span ng-show="c.comment.edited">*</span>
+            <span ng-show="c.comment.deleted"><strong>[deleted]</strong></span>
+        </div>
+        <div class="col-sm-1">
+            <div class="dropdown pull-right" ng-if="c.canEdit() || c.canDelete() || c.isModerator()">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="" ng-click="c.replyFlag=false;c.editFlag=true" ng-if="c.canEdit()">Edit</a></li>
+                    <li><a href="" class="bg-danger" ng-click="c.deleteComment()" ng-if="c.canDelete()">Delete</a></li>
+                    <li role="separator" class="divider" ng-if="c.isModerator()"></li>
+                    <li><a href="" class="bg-danger" ng-click="c.deleteCommentAsModerator()" ng-if="c.isModerator()">Delete as moderator</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="!c.editFlag && !c.comment.deleted">
+        <pre class="bg-info">{{c.comment.commentText}}</pre>
+    </div>
+    <button class="btn btn-success" ng-show="!c.editFlag && !c.replyFlag" ng-click="c.replyFlag=true;c.editFlag=false"
+        ng-if="c.canReply()">Reply</button>
+
+    <div ng-show="!c.editFlag && c.replyFlag">
+        <comment-reply ng-if="c.replyFlag" comment-parent-id="c.comment._id" thread-id="c.comment.thread">
+        </comment-reply>
+        <button class="btn btn-warning" ng-click="c.editFlag = c.replyFlag = null">Cancle</button>
+    </div>
+    <div ng-show="c.editFlag && !c.replyFlag">
+        <comment-edit ng-if="c.editFlag" comment="c.comment"></comment-edit>
+        <button class="btn btn-warning" ng-click="c.editFlag = c.replyFlag = null">Cancle</button>
+    </div>
+
+    <div class="panel-body" ng-if="c.subComments.length > 0">
+        <a href="" ng-if="c.comment.deleted && !c.showMore && c.comment.comments.length > 0"
+            ng-click="c.showMore = true">Show more..</a>
+        <a href="" ng-if="c.comment.deleted && c.showMore" ng-click="c.showMore = false">Show less..</a>
+
+        <div ng-if="!c.comment.deleted || c.showMore" ng-repeat="subComment in c.subComments | orderBy: '-datetime'">
+            <comment comment="subComment"></comment>
+        </div>
+    </div>
+</div>

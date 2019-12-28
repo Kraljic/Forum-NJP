@@ -1,0 +1,35 @@
+<div ng-show="!c.modifyFlag">
+    <button class="btn btn-success" ng-click="c.create()">New section</button>
+    <button class="btn btn-warning" ng-click="c.edit()">Edit section</button>
+</div>
+
+<div ng-show="c.modifyFlag" class="well">
+    <h3 ng-show="c.createFlag">Create new section:</h3>
+    <h3 ng-show="c.editFlag">Edit section: </h3>
+
+    <form name="c.form" ng-submit="c.submitForm()" novalidate>
+        <div ng-if="c.editFlag">
+            <label>Section: </label>
+            <select ng-show="c.editFlag" data-ng-options="section.title for section in c.sections"
+                data-ng-model="selectedSection" ng-change="c.selectedSectionChanged(selectedSection)"
+                class="form-control" required>
+            </select>
+            <br>
+        </div>
+
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="Title" class="form-control" ng-maxlength="64"
+            ng-model="c.newModel.title" required>
+        <br>
+
+        <label for="description">Description</label>
+        <input type="text" name="description" placeholder="Description" class="form-control" ng-maxlength="255"
+            ng-model="c.newModel.description" required>
+        <br>
+
+        <button class="btn btn-success" type="submit" ng-disabled="!c.form.$valid">Save</button>
+    </form>
+    <br>
+    <button class="btn btn-warning" ng-click="c.closeModify()">Cancle</button>
+    <button class="btn btn-danger" ng-show="c.editFlag" ng-click="c.deleteSelected()">Delete</button>
+</div>

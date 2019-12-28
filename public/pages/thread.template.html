@@ -1,0 +1,59 @@
+<div class="thread" id="{{c.thread._id}}">
+    <a ui-sref='category({categoryId: c.thread.category})'>Back</a>
+    <br>
+    <br>
+    <div ng-show="c.canCreateThread()">
+    </div>
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-11">
+                    <h4>{{c.thread.title}}</h4>
+                    <p>by <strong>{{c.thread.createdBy.username}}</strong> @ {{c.thread.datetime | unifiedDate}}</p>
+                </div>
+
+                <div class="col-sm-1">
+                    <div class="dropdown pull-right" ng-if="c.canEdit() || c.canDelete() || c.isModerator()">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="" ng-click="c.replyFlag=false;c.editFlag=true" ng-if="c.canEdit()">Edit</a>
+                            </li>
+                            <li><a href="" class="bg-danger" ng-click="c.deleteThread()"
+                                    ng-if="c.canDelete()">Delete</a>
+                            </li>
+                            <li role="separator" class="divider" ng-if="c.isModerator()"></li>
+                            <li><a href="" class="bg-danger" ng-click="c.deleteThreadAsModerator()" ng-if="c.isModerator()">Delete as moderator</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <pre class="bg-info">{{c.thread.threadText}}</pre>
+        </div>
+
+        <div class="panel-body">
+            <div ng-show="c.editFlag && !c.replyFlag">
+                <thread-edit thread="c.thread" ng-if="c.editFlag"></thread-edit>
+                <button class="btn btn-warning" ng-click="c.editFlag = c.replyFlag = null">Cancle</button>
+            </div>
+            <div ng-show="!c.editFlag && c.replyFlag">
+                <comment-reply thread-id="c.thread._id" ng-if="c.replyFlag"></comment-reply>
+                <button class="btn btn-warning" ng-click="c.editFlag = c.replyFlag = null">Cancle</button>
+            </div>
+            <div ng-show="!c.editFlag && !c.replyFlag">
+                <button class="btn btn-success" ng-click="c.replyFlag=true;c.editFlag=false"
+                    ng-if="c.canReply()">Reply</button>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <div ng-repeat="comment in c.comments | orderBy: '-datetime'">
+                <comment comment="comment"></comment>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div>
+    <form name="c.commentEditForm" ng-submit="c.editComment()" novalidate>
+        <label>Comment text: {{c.commentEditForm.commentText.$viewValue.length || 0}}/1024</label>
+        <textarea name="commentText" ng-model="c.newComment.commentText" placeholder="Comment text.."
+            class="form-control" ng-maxlength="1024" required></textarea>
+        <br>
+        <button class="btn btn-success pull-right" ng-disabled="!c.isFormValid()">Post</button>
+    </form>
+</div>

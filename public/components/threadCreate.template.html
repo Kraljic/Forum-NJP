@@ -1,0 +1,15 @@
+<div>
+    <form name="c.newThreadForm" ng-submit="c.postNewThread()" novalidate>
+        <label for="title">Title: {{c.newThreadForm.title.$viewValue.length || 0}} / 128</label>
+        <input type="text" name="title" ng-model="c.newThread.title" placeholder="Title" class="form-control"
+            ng-maxlength="128" required>
+        <br>
+
+        <label for="threadText">Thread text: {{c.newThreadForm.threadText.$viewValue.length || 0}} / 2048</label>
+        <textarea name="threadText" ng-model="c.newThread.threadText" placeholder="Text..." class="form-control"
+            ng-minlength="10" ng-maxlength="2048" required></textarea>
+        <br>
+
+        <button class="btn btn-success pull-right" ng-disabled="!c.isFormValid()">Post</button>
+    </form>
+</div>

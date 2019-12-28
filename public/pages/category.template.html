@@ -1,0 +1,29 @@
+<div>
+    <a ui-sref='main'>Back</a>
+    <br>
+    <br>
+    <button class="btn btn-success" ng-click="c.newThreadFlag=true" ng-show="!c.newThreadFlag">+ Start New Thread</button>
+    <div ng-if="c.newThreadFlag">
+        <thread-create category-id="c.categoryId" ng-show="c.canCreateThread()"></thread-create>
+        <button class="btn btn-warning" ng-click="c.newThreadFlag=false">Cancle</button>
+    </div>
+    <br>
+    <br>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>{{c.category.title}}</h4>
+            <p>{{c.category.description}}</p>
+        </div>
+        <div class="panel-body">
+            <div ng-repeat="thread in c.threads | orderBy: '-datetime'">
+                <div class="well">
+                    <h4><a ui-sref="thread({threadId: thread._id})">{{thread.title}}</a></h4>
+                    <p>by
+                        <a ui-sref="profile({userId: thread.createdBy._id})">
+                            <strong>{{thread.createdBy.username}}</strong> </a>
+                        @ {{thread.datetime | unifiedDate}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
