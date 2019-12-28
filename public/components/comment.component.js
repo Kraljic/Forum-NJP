@@ -4,6 +4,8 @@ app.component('comment', {
         comment: '<'
     },
     controller: function ($scope, CommentService, AuthenticationService, AuthorizationService) {
+        this.user = AuthenticationService.getUser();
+
         this.subComments = [];
 
         this.$onInit = function () {
@@ -41,6 +43,12 @@ app.component('comment', {
             return AuthorizationService.isModerator();
         }
 
+        this.isLiked = function() {
+            if (this.comment.likes.find(l => l == this.user._id)) 
+                return 'text-primary';
+
+        }
+
         this.deleteComment = function () {
             CommentService.deleteComment(this.comment._id).then(d => {
                 this.comment = d.data;
@@ -50,6 +58,20 @@ app.component('comment', {
             CommentService.deleteCommentAsModerator(this.comment._id).then(d => {
                 this.comment = d.data;
             })
+        }
+        
+        this.likeComment = function () {
+            if (this.comment.likes.find(l => l == this.user._id)) {
+                // Dislike
+                CommentService.deleteLike(this.comment._id).then(d => {
+                    this.comment = d.data;
+                });
+            } else {
+                // Like
+                CommentService.likeComment(this.comment._id).then(d => {
+                    this.comment = d.data;
+                });
+            }
         }
     },
     controllerAs: 'c'

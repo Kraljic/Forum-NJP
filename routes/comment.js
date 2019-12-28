@@ -147,4 +147,45 @@ router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequest
 });
 
 
+router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+    const comment = await Comment.findById(req.params.id);
+
+    if (!comment) return res.status(404).send({ error: 'Comment not found' });
+
+    comment.update({ $addToSet: { likes: req.user._id } })
+        .then(data => {
+            return Comment
+                .findById(req.params.id)
+                .populate('createdBy', 'username');
+        })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err });
+        });
+});
+
+router.delete('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+    const comment = await Comment.findById(req.params.id);
+
+    if (!comment) return res.status(404).send({ error: 'Comment not found' });
+
+    comment.update({ $pull: { likes: req.user._id } })
+        .then(data => {
+            return Comment
+                .findById(req.params.id)
+                .populate('createdBy', 'username');
+        })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err });
+        });
+});
+
+
 module.exports = router;

@@ -25,6 +25,13 @@ class ThreadService {
     deleteThreadAsModerator(threadId) {
         return this.http.delete('./api/thread/asModerator/' + threadId);
     }
+
+    likeThread(threadId) {
+        return this.http.put('./api/thread/like/' + threadId);
+    }
+    deleteLike(threadId) {
+        return this.http.delete('./api/thread/like/' + threadId);
+    }
 }
 
 app.service('ThreadService', ThreadService);

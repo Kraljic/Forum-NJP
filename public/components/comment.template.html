@@ -1,7 +1,10 @@
 <div class="well" class="comment" id="{{c.comment._id}}">
     <div class="row">
         <div class="col-sm-11">
-            by <strong>{{c.comment.createdBy.username}}</strong> @ {{c.comment.datetime | unifiedDate}}
+
+            by <a ui-sref="profile({userId: c.comment.createdBy._id})">
+                <strong>{{c.comment.createdBy.username}}</strong> </a>
+            @ {{c.comment.datetime | unifiedDate}}
             <span ng-show="c.comment.edited">*</span>
             <span ng-show="c.comment.deleted"><strong>[deleted]</strong></span>
         </div>
@@ -13,7 +16,8 @@
                     <li><a href="" ng-click="c.replyFlag=false;c.editFlag=true" ng-if="c.canEdit()">Edit</a></li>
                     <li><a href="" class="bg-danger" ng-click="c.deleteComment()" ng-if="c.canDelete()">Delete</a></li>
                     <li role="separator" class="divider" ng-if="c.isModerator()"></li>
-                    <li><a href="" class="bg-danger" ng-click="c.deleteCommentAsModerator()" ng-if="c.isModerator()">Delete as moderator</a></li>
+                    <li><a href="" class="bg-danger" ng-click="c.deleteCommentAsModerator()"
+                            ng-if="c.isModerator()">Delete as moderator</a></li>
                 </ul>
             </div>
         </div>
@@ -21,7 +25,10 @@
 
     <div ng-show="!c.editFlag && !c.comment.deleted">
         <pre class="bg-info">{{c.comment.commentText}}</pre>
+        <i class="glyphicon glyphicon-thumbs-up" ng-click="c.likeComment()" ng-class="c.isLiked()"></i>
+        {{c.comment.likes.length || 0}}
     </div>
+    <br>
     <button class="btn btn-success" ng-show="!c.editFlag && !c.replyFlag" ng-click="c.replyFlag=true;c.editFlag=false"
         ng-if="c.canReply()">Reply</button>
 

@@ -2,7 +2,8 @@
     <a ui-sref='main'>Back</a>
     <br>
     <br>
-    <button class="btn btn-success" ng-click="c.newThreadFlag=true" ng-show="!c.newThreadFlag">+ Start New Thread</button>
+    <button class="btn btn-success" ng-click="c.newThreadFlag=true" ng-show="!c.newThreadFlag">+ Start New
+        Thread</button>
     <div ng-if="c.newThreadFlag">
         <thread-create category-id="c.categoryId" ng-show="c.canCreateThread()"></thread-create>
         <button class="btn btn-warning" ng-click="c.newThreadFlag=false">Cancle</button>
@@ -22,6 +23,8 @@
                         <a ui-sref="profile({userId: thread.createdBy._id})">
                             <strong>{{thread.createdBy.username}}</strong> </a>
                         @ {{thread.datetime | unifiedDate}}</p>
+
+                    <i class="glyphicon glyphicon-thumbs-up"></i> {{thread.likes.length || 0}}
                 </div>
             </div>
         </div>

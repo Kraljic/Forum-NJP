@@ -27,6 +27,13 @@ class CommentService {
     deleteCommentAsModerator(commentId) {
         return this.http.delete('./api/comment/asModerator/' + commentId);
     }
+    
+    likeComment(commentId) {
+        return this.http.put('./api/comment/like/' + commentId);
+    }
+    deleteLike(commentId) {
+        return this.http.delete('./api/comment/like/' + commentId);
+    }
 }
 
 app.service('CommentService', CommentService);

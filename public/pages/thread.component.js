@@ -47,6 +47,12 @@ app.component('thread', {
             return AuthorizationService.isModerator();
         }
 
+        this.isLiked = function() {
+            if (this.thread.likes.find(l => l == this.user._id)) 
+                return 'text-primary';
+
+        }
+
         this.deleteThread = function () {
             ThreadService.deleteThread(this.threadId).then(d => {
                 alert('Done!');
@@ -64,6 +70,19 @@ app.component('thread', {
             })
         }
 
+        this.likeThread = function () {
+            if (this.isLiked()) {
+                // Dislike
+                ThreadService.deleteLike(this.thread._id).then(d => {
+                    this.thread = d.data;
+                });
+            } else {
+                // Like
+                ThreadService.likeThread(this.thread._id).then(d => {
+                    this.thread = d.data;
+                });
+            }
+        }
     },
     controllerAs: 'c'
 });

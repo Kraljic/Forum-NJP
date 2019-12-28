@@ -60,7 +60,6 @@ router.put('/:id', [verifyToken, validateThreadPutRequest, validateRequestId], a
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
     if (thread.createdBy != req.user._id) return res.status(401).send({ error: 'Access Denied' });
-    if (thread.deleted) return res.status(400).send({ error: 'Thread deleted' });
 
     Thread.updateOne(
         { _id: req.params.id },
@@ -84,7 +83,6 @@ router.delete('/:id', [verifyToken, validateRequestId], async (req, res) => {
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
     if (thread.createdBy != req.user._id) return res.status(401).send({ error: 'Access Denied' });
-    if (thread.deleted) return res.status(400).send({ error: 'Thread deleted' });
 
     Thread.findByIdAndDelete(req.params.id)
         .then(async data => {
@@ -101,7 +99,6 @@ router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequest
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
-    if (thread.deleted) return res.status(400).send({ error: 'Thread deleted' });
 
     Thread.findByIdAndDelete(req.params.id)
         .then(async data => {
@@ -118,5 +115,44 @@ router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequest
         });
 });
 
+router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+    const thread = await Thread.findById(req.params.id);
+
+    if (!thread) return res.status(404).send({ error: 'Thread not found' });
+
+    thread.update({ $addToSet: { likes: req.user._id } })
+        .then(data => {
+            return Thread
+                .findById(req.params.id)
+                .populate('createdBy', 'username');
+        })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err });
+        });
+});
+
+router.delete('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+    const thread = await Thread.findById(req.params.id);
+
+    if (!thread) return res.status(404).send({ error: 'Thread not found' });
+
+    thread.update({ $pull: { likes: req.user._id } })
+        .then(data => {
+            return Thread
+                .findById(req.params.id)
+                .populate('createdBy', 'username');
+        })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err });
+        });
+});
 
 module.exports = router;
