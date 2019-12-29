@@ -28,10 +28,10 @@ const schema = new mongoose.Schema({
         min: 8,
         max: 64
     },
-    role: { // USER/SERVER
+    role: {         // USER/SERVER
         type: String,
         default: 'user',
-        enum: ['user', 'moderator', 'admin']
+        enum: ['banned', 'user', 'moderator', 'admin']
     },
     date: {         // DB
         type: Date,

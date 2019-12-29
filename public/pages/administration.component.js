@@ -3,6 +3,7 @@ app.component('administration', {
     controller: function ($state, AuthenticationService, AuthorizationService) {
         if (AuthorizationService.isModerator() == false) {
             $state.go('main');
+            return;
         }
 
         this.user = AuthenticationService.getUser();

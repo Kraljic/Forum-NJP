@@ -1,13 +1,12 @@
 const router = require('express').Router();
 
-const verifyToken = require('../verificators/verifyToken');
-const verifyModerator = require('../verificators/verifyModerator');
-const { validateRequestId, validateThreadRequest, validateThreadPutRequest } = require('../utility/validators');
+const verifyRole = require('../verificators/verifyRole');
+const { validateId, validateThreadRequest, validateThreadPutRequest } = require('../utility/validators');
 
 const Thread = require('../models/Thread');
 const Comment = require('../models/Comment');
 
-router.get('/:id', [validateRequestId], (req, res) => {
+router.get('/:id', [validateId], (req, res) => {
     Thread
         .findById(req.params.id)
         .populate('createdBy', 'username')
@@ -19,7 +18,7 @@ router.get('/:id', [validateRequestId], (req, res) => {
             res.status(500).send({ error: err });
         });
 });
-router.get('/category/:id', [validateRequestId], (req, res) => {
+router.get('/category/:id', [validateId], (req, res) => {
     Thread
         .find({ category: req.params.id })
         .populate('createdBy', 'username')
@@ -32,7 +31,7 @@ router.get('/category/:id', [validateRequestId], (req, res) => {
         });
 });
 
-router.post('/', [verifyToken, validateThreadRequest], (req, res) => {
+router.post('/', [validateThreadRequest], (req, res) => {
     const thread = new Thread({
         title: req.body.title,
         threadText: req.body.threadText,
@@ -55,7 +54,7 @@ router.post('/', [verifyToken, validateThreadRequest], (req, res) => {
         });
 });
 
-router.put('/:id', [verifyToken, validateThreadPutRequest, validateRequestId], async (req, res) => {
+router.put('/:id', [validateThreadPutRequest, validateId], async (req, res) => {
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
@@ -78,7 +77,7 @@ router.put('/:id', [verifyToken, validateThreadPutRequest, validateRequestId], a
         });
 });
 
-router.delete('/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.delete('/:id', [validateId], async (req, res) => {
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
@@ -95,7 +94,7 @@ router.delete('/:id', [verifyToken, validateRequestId], async (req, res) => {
         });
 });
 
-router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequestId], async (req, res) => {
+router.delete('/asModerator/:id', [verifyRole('moderator'), validateId], async (req, res) => {
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
@@ -115,7 +114,7 @@ router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequest
         });
 });
 
-router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.put('/like/:id', [validateId], async (req, res) => {
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });
@@ -135,7 +134,7 @@ router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
         });
 });
 
-router.delete('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.delete('/like/:id', [validateId], async (req, res) => {
     const thread = await Thread.findById(req.params.id);
 
     if (!thread) return res.status(404).send({ error: 'Thread not found' });

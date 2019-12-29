@@ -4,6 +4,8 @@ const fs = require('fs');
 const https = require('https');
 const mongoose = require('mongoose');
 
+const Role = require('./models/Role');
+
 // Import routes
 const apiRouter = require('./routes/api');
 
@@ -22,7 +24,17 @@ function redirectToHttps() {
     app.listen(process.env.PORT, () => console.log(`Started HTTP redirect server on port ${process.env.PORT}...`));
 }
 
+function getRunMode() {
+    const runMode = process.argv[2];
+
+    if (!runMode || (runMode != 'dev' && runMode != 'deploy'))
+        throw 'Error: run mode must be specified: [\'dev\', \'deploy\']';
+
+    return runMode;
+}
+
 async function init() {
+    const runMode = getRunMode();
     dotenv.config();
 
     const app = express();
@@ -38,19 +50,29 @@ async function init() {
         { useUnifiedTopology: true, useNewUrlParser: true },
         () => console.log("mongoDB connected!"));
 
-    // Http server
-    app.listen(process.env.PORT, () => console.log(`Started HTTP server on port ${process.env.PORT}...`));
+    // Http server    
+    if (runMode == 'dev') {
+        app.listen(process.env.PORT, () => console.log(`Started HTTP server on port ${process.env.PORT}...`));
+    }
+    else if (runMode == 'deploy') {
+        // Https server
+        const httpsOptions = {
+            cert: fs.readFileSync(process.env.SSL_CERT),
+            key: fs.readFileSync(process.env.SSL_KEY)
+        }
+        https.createServer(httpsOptions, app)
+            .listen(process.env.SSL_PORT,
+                () => console.log(`Started HTTPS server on port ${process.env.SSL_PORT}...`)
+            );
+        redirectToHttps();
+    }
 
-    // Https server
-    // const httpsOptions = {
-    //     cert: fs.readFileSync(process.env.SSL_CERT),
-    //     key: fs.readFileSync(process.env.SSL_KEY)
-    // }
-    // https.createServer(httpsOptions, app)
-    //     .listen(process.env.SSL_PORT,
-    //         () => console.log(`Started HTTPS server on port ${process.env.SSL_PORT}...`)
-    //     );
-    // redirectToHttps();
+    // Role.create(
+    //     new Role({
+    //         priority: 0,
+    //         name: 'banned'
+    //     })
+    // );
 }
 
 init();

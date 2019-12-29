@@ -3,6 +3,7 @@ app.component('register', {
     controller: function ($scope, RegisterService, AuthenticationService) {
         if (AuthenticationService.isAuthenticated() == true) {
             $state.go('main');
+            return;
         }
 
         this.submitForm = function () {

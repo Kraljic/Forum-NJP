@@ -2,7 +2,8 @@ app.component('category', {
     templateUrl: './pages/category.template.html',
     controller: function ($stateParams, $scope, CategoryService, ThreadService, AuthenticationService, AuthorizationService) {
         if (AuthenticationService.isAuthenticated() == false) {
-            $state.go('login');            
+            $state.go('login'); 
+            return;           
         }
         this.user = AuthenticationService.getUser();
         

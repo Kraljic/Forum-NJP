@@ -1,13 +1,12 @@
 const router = require('express').Router();
 
-const verifyToken = require('../verificators/verifyToken');
-const verifyModerator = require('../verificators/verifyModerator');
-const { validateRequestId, validateCommentRequest, validateCommentPutRequest } = require('../utility/validators');
+const verifyRole = require('../verificators/verifyRole');
+const { validateId, validateCommentRequest, validateCommentPutRequest } = require('../utility/validators');
 
 const Comment = require('../models/Comment');
 const Thread = require('../models/Thread');
 
-router.get('/:id', [validateRequestId], (req, res) => {
+router.get('/:id', [validateId], (req, res) => {
     Comment
         .findById(req.params.id)
         .populate('createdBy', 'username')
@@ -19,7 +18,7 @@ router.get('/:id', [validateRequestId], (req, res) => {
             res.status(500).send({ error: err });
         });
 });
-router.get('/thread/:id', [validateRequestId], (req, res) => {
+router.get('/thread/:id', [validateId], (req, res) => {
     Comment
         .find({ thread: req.params.id, commentParent: null })
         .populate('createdBy', 'username')
@@ -31,7 +30,7 @@ router.get('/thread/:id', [validateRequestId], (req, res) => {
             res.status(500).send({ error: err });
         });
 });
-router.get('/parentComment/:id', [validateRequestId], (req, res) => {
+router.get('/parentComment/:id', [validateId], (req, res) => {
     Comment
         .find({ commentParent: req.params.id })
         .populate('createdBy', 'username')
@@ -44,7 +43,7 @@ router.get('/parentComment/:id', [validateRequestId], (req, res) => {
         });
 });
 
-router.post('/', [verifyToken, validateCommentRequest], (req, res) => {
+router.post('/', [validateCommentRequest], (req, res) => {
     const comment = new Comment({
         commentText: req.body.commentText,
         thread: req.body.thread,
@@ -79,7 +78,7 @@ router.post('/', [verifyToken, validateCommentRequest], (req, res) => {
         });
 });
 
-router.put('/:id', [verifyToken, validateCommentPutRequest, validateRequestId], async (req, res) => {
+router.put('/:id', [validateCommentPutRequest, validateId], async (req, res) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) return res.status(404).send({ error: 'Comment not found' });
@@ -103,7 +102,7 @@ router.put('/:id', [verifyToken, validateCommentPutRequest, validateRequestId], 
         });
 });
 
-router.delete('/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.delete('/:id', [validateId], async (req, res) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) return res.status(404).send({ error: 'Comment not found' });
@@ -125,7 +124,7 @@ router.delete('/:id', [verifyToken, validateRequestId], async (req, res) => {
         });
 });
 
-router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequestId], async (req, res) => {
+router.delete('/asModerator/:id', [verifyRole('moderator'), validateId], async (req, res) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) return res.status(404).send({ error: 'Comment not found' });
@@ -147,7 +146,7 @@ router.delete('/asModerator/:id', [verifyToken, verifyModerator, validateRequest
 });
 
 
-router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.put('/like/:id', [validateId], async (req, res) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) return res.status(404).send({ error: 'Comment not found' });
@@ -167,7 +166,7 @@ router.put('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
         });
 });
 
-router.delete('/like/:id', [verifyToken, validateRequestId], async (req, res) => {
+router.delete('/like/:id', [validateId], async (req, res) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) return res.status(404).send({ error: 'Comment not found' });

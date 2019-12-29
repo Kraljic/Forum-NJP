@@ -3,6 +3,7 @@ app.component('thread', {
     controller: function ($state, $stateParams, $scope, ThreadService, CommentService, AuthenticationService, AuthorizationService) {
         if (AuthenticationService.isAuthenticated() == false) {
             $state.go('login');
+            return;
         }
         this.user = AuthenticationService.getUser();
 

@@ -3,6 +3,7 @@ app.component('login', {
     controller: function($state, AuthenticationService) {  
         if (AuthenticationService.isAuthenticated() == true) {
             $state.go('main');
+            return;
         }
 
         this.login = function() {

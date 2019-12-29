@@ -9,7 +9,7 @@ class AuthenticationService {
 
         if (sessionStorage.getItem('authenticated') == "true") auth = true;
         if (auth)
-            this.http.defaults.headers.common.Authorization = sessionStorage.getItem('authToken');
+            this.http.defaults.headers.common.Authorization = this.getToken();
 
         return auth;
     }
@@ -19,25 +19,24 @@ class AuthenticationService {
     }
 
     getUser() {
-        return this.parseJwt(this.getToken());
+        return this.parseJwt(this.getToken());;
     }
 
     login(credentials) {
         this.http.post('/api/user/login', credentials)
-        .then(d => {
-            let authToken = d.headers().authorization;
-            this.loginWithToken(authToken);
-        })
-        .catch(d => {
-            alert('Wrong credentials: ' + d.data);
-        });
+            .then(d => {
+                let authToken = d.headers().authorization;
+                this.loginWithToken(authToken);
+            })
+            .catch(d => {
+                alert('Wrong credentials: ' + d.data);
+            });
     }
 
     loginWithToken(authToken) {
-        this.http.defaults.headers.common.Authorization = authToken;
-
         sessionStorage.setItem('authenticated', true);
         sessionStorage.setItem('authToken', authToken);
+        this.http.defaults.headers.common.Authorization = authToken;
 
         this.state.go('main');
     }

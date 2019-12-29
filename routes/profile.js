@@ -1,11 +1,11 @@
 const router = require('express').Router();
 
 const verifyToken = require('../verificators/verifyToken');
-const { validateRequestId, validateProfileRequest } = require('../utility/validators');
+const { validateId, validateProfileRequest } = require('../utility/validators');
 
 const Profile = require('../models/Profile');
 
-router.get('/:id', [validateRequestId], (req, res) => {
+router.get('/:id', [validateId], (req, res) => {
     Profile
         .findOne({ user: req.params.id })
         .populate('user', 'username role')
@@ -18,7 +18,7 @@ router.get('/:id', [validateRequestId], (req, res) => {
         });
 });
 
-router.get('/', [verifyToken], (req, res) => {
+router.get('/', (req, res) => {
     const id = req.user._id;
 
     Profile
@@ -33,7 +33,7 @@ router.get('/', [verifyToken], (req, res) => {
         });
 });
 
-router.put('/', [verifyToken, validateProfileRequest], async (req, res) => {
+router.put('/', [validateProfileRequest], async (req, res) => {
     let profile = await Profile.findOne({ user: req.user._id });
 
     if (!profile) {

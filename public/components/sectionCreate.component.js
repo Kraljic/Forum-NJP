@@ -7,7 +7,7 @@ app.component('sectionCreate', {
 
         this.selectedSectionChanged = function (section) {
             $scope.selectedSection = section;
-            
+
             this.newModel = {
                 title: section.title,
                 description: section.description
@@ -34,7 +34,7 @@ app.component('sectionCreate', {
                     this.sections.push(d.data);
                     this.closeModify();
                 }).catch(err => {
-                    alert("Whoops something went wrong: " + + err.data.error);
+                    alert("Whoops something went wrong: " + err.data.error);
                 });
             }
             else {
@@ -42,7 +42,7 @@ app.component('sectionCreate', {
                     this.sections.push(d.data);
                     this.closeModify();
                 }).catch(err => {
-                    alert("Whoops something went wrong: " + + err.data.error);
+                    alert("Whoops something went wrong: " + err.data.error);
                 });
             }
         }
@@ -52,7 +52,7 @@ app.component('sectionCreate', {
                 this.sections.splice(this.sections.indexOf(item), 1);
                 this.closeModify();
             }).catch(err => {
-                alert("Whoops something went wrong: " + + err.data.error);
+                alert("Whoops something went wrong: " + err.data.error);
             });
         }
 

@@ -2,7 +2,7 @@ const Joi = require('joi');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
-    validateRequestId: function (req, res, next) {
+    validateId: function (req, res, next) {
         if (!ObjectId.isValid(req.params.id))
             return res.status(400).send({ error: 'Invalid id provided' });
 

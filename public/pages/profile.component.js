@@ -3,6 +3,7 @@ app.component('profile', {
     controller: function ($state, $scope, $stateParams, AuthenticationService, ProfileService) {
         if (AuthenticationService.isAuthenticated() == false) {
             $state.go('login');
+            return;
         }
         this.user = AuthenticationService.getUser();
         this.profile = null;
@@ -16,15 +17,22 @@ app.component('profile', {
 
             ProfileService.getProfile(this.userId).then(d => {
                 this.profile = d.data;
-            });
-        } else {
-            ProfileService.getMyProfile().then(d => {
-                this.profile = d.data;
                 if (!this.profile) {
                     alert("Whoops.. Looks like profile does not exist.");
                     $state.go('main');
                 }
-            });
+            }).catch(err => {
+                alert("Whoops, something went wrong:\n" + err.data.error);
+                $state.go('main');
+            })
+        } else {
+            ProfileService.getMyProfile().then(d => {
+                this.profile = d.data;
+                if (!this.profile) {
+                    alert("Whoops, something went wrong:\n" + err.data.error);
+                    $state.go('main');
+                }
+            })
         }
 
         $scope.$on('editProfile', (e, data) => {

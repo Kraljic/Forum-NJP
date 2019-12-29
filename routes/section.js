@@ -1,9 +1,7 @@
 const router = require('express').Router();
 
-const verifyToken = require('../verificators/verifyToken');
-const verifyAdmin = require('../verificators/verifyAdmin');
 const verifyRole = require('../verificators/verifyRole');
-const { validateRequestId, validateSectionRequest } = require('../utility/validators');
+const { validateId, validateSectionRequest } = require('../utility/validators');
 
 const Section = require('../models/Section');
 
@@ -17,7 +15,7 @@ router.get('/', (req, res) => {
             res.status(500).send({ error: err });
         });
 });
-router.get('/:id', [validateRequestId], (req, res) => {
+router.get('/:id', [validateId], (req, res) => {
     Section.findById(req.params.id)
         .then(data => {
             res.send(data);
@@ -28,7 +26,7 @@ router.get('/:id', [validateRequestId], (req, res) => {
         });
 });
 
-router.post('/', [verifyToken, verifyRole(['admin']), validateSectionRequest], (req, res) => {
+router.post('/', [verifyRole('admin'), validateSectionRequest], (req, res) => {
     const section = new Section({
         title: req.body.title,
         description: req.body.description,
@@ -45,10 +43,13 @@ router.post('/', [verifyToken, verifyRole(['admin']), validateSectionRequest], (
         });
 });
 
-router.put('/:id', [verifyToken, verifyAdmin, validateSectionRequest, validateRequestId], (req, res) => {
-    Section.updateOne({ _id: req.params.id }, req.body)
-        .then(async data => {
-            res.status(202).send(await Section.findById(req.params.id));
+router.put('/:id', [verifyRole('admin'), validateSectionRequest, validateId], (req, res) => {
+    Section.findByIdAndUpdate(req.params.id, req.body)
+        .then(async (data) => {
+            if (data)
+                res.status(202).send(await Section.findById(req.params.id));
+            else
+                res.status(404).send({ error: 'Section with given id not found' });
         })
         .catch(err => {
             console.log(err);
@@ -56,7 +57,7 @@ router.put('/:id', [verifyToken, verifyAdmin, validateSectionRequest, validateRe
         });
 });
 
-router.delete('/:id', [verifyToken, verifyAdmin, validateRequestId], (req, res) => {
+router.delete('/:id', [verifyRole('admin'), validateId], (req, res) => {
     Section.findByIdAndDelete(req.params.id)
         .then(data => {
             if (data)

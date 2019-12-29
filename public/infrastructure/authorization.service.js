@@ -5,28 +5,28 @@ class AuthorizationService {
         this.authenticationService = AuthenticationService;
     }
 
-    isAdmin() {
-        if (this.authenticationService.isAuthenticated()) {
-            let user = this.authenticationService.getUser();
-            return user.role == 'admin';
-        }
-        return false;
+    isAdmin(user) {
+        if (!user)
+            user = this.authenticationService.getUser(user);
+        return user.role == 'admin';
     }
 
-    isModerator() {
-        if (this.authenticationService.isAuthenticated()) {
-            let user = this.authenticationService.getUser();
-            return user.role == 'moderator' || this.isAdmin();
-        }
-        return false;
+    isModerator(user) {
+        if (!user)
+            user = this.authenticationService.getUser();
+        return user.role == 'moderator' || this.isAdmin(user);
     }
-    
-    isUser() {
-        return this.authenticationService.isAuthenticated();
+
+    isUser(user) {
+        if (!user)
+            user = this.authenticationService.getUser();
+        return user.role == 'user' || this.isModerator(user);
     }
-        
-    isGuest() {
-        return this.authenticationService.isAuthenticated() == false;
+
+    isBanned(user) {
+        if (!user)
+            user = this.authenticationService.getUser();
+        return user.role == 'banned';
     }
 }
 
