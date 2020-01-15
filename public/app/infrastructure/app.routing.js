@@ -22,6 +22,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }).state('administration',{
         url:'/administration',
         component:'administration'
+    }).state('paperGame',{
+        url:'/paperGame',
+        component:'paperGame'
     });
 
     $urlRouterProvider.otherwise('/');
