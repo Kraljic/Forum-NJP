@@ -1,5 +1,5 @@
 app.component('navBar', {
-    templateUrl: './components/navBar.template.html',
+    templateUrl: './app/components/navBar.template.html',
     controller: function ($state, AuthenticationService, AuthorizationService) {
         this.$doCheck = function () {            
             if (!this.user && AuthenticationService.isAuthenticated())

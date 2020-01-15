@@ -1,5 +1,5 @@
 app.component('sectionCreate', {
-    templateUrl: './components/sectionCreate.template.html',
+    templateUrl: './app/components/sectionCreate.template.html',
     controller: function ($scope, SectionService) {
         SectionService.getSections().then(d => {
             this.sections = d.data;

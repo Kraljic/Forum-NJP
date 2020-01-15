@@ -1,5 +1,5 @@
 app.component('threadCreate', {
-    templateUrl: './components/threadCreate.template.html',
+    templateUrl: './app/components/threadCreate.template.html',
     bindings: {
         categoryId: '<'
     },

@@ -1,5 +1,5 @@
 app.component('login', {
-    templateUrl: './pages/login.template.html',
+    templateUrl: './app/pages/login.template.html',
     controller: function($state, AuthenticationService) {  
         if (AuthenticationService.isAuthenticated() == true) {
             $state.go('main');

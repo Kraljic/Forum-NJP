@@ -1,5 +1,5 @@
 app.component('threadEdit', {
-    templateUrl: './components/threadEdit.template.html',
+    templateUrl: './app/components/threadEdit.template.html',
     bindings: {
         thread: '<'
     },

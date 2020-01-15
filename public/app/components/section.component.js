@@ -1,5 +1,5 @@
 app.component('section', {
-    templateUrl: './components/section.template.html',    
+    templateUrl: './app/components/section.template.html',    
     bindings:{
         section:'<'
     },

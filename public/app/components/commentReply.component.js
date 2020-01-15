@@ -1,5 +1,5 @@
 app.component('commentReply', {
-    templateUrl: './components/commentReply.template.html',
+    templateUrl: './app/components/commentReply.template.html',
     bindings: {
         threadId: '<',
         commentParentId: '<'

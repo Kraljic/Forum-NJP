@@ -1,5 +1,5 @@
 app.component('thread', {
-    templateUrl: './pages/thread.template.html',
+    templateUrl: './app/pages/thread.template.html',
     controller: function ($state, $stateParams, $scope, ThreadService, CommentService, AuthenticationService, AuthorizationService) {
         if (AuthenticationService.isAuthenticated() == false) {
             $state.go('login');

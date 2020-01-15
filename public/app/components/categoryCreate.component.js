@@ -1,5 +1,5 @@
 app.component('categoryCreate', {
-    templateUrl: './components/categoryCreate.template.html',
+    templateUrl: './app/components/categoryCreate.template.html',
     controller: function ($scope, CategoryService, SectionService) {
         CategoryService.getAllCategories().then(d => {
             this.categories = d.data;

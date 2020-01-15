@@ -1,5 +1,5 @@
 app.component('profileEdit', {
-    templateUrl: './components/profileEdit.template.html',
+    templateUrl: './app/components/profileEdit.template.html',
     bindings: {
         profile: '<'
     },

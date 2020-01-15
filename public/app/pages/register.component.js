@@ -1,5 +1,5 @@
 app.component('register', {
-    templateUrl: './pages/register.template.html',
+    templateUrl: './app/pages/register.template.html',
     controller: function ($scope, RegisterService, AuthenticationService) {
         if (AuthenticationService.isAuthenticated() == true) {
             $state.go('main');

@@ -1,5 +1,5 @@
 app.component('commentEdit', {
-    templateUrl: './components/commentEdit.template.html',
+    templateUrl: './app/components/commentEdit.template.html',
     bindings: {
         comment: '<'
     },

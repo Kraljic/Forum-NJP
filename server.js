@@ -4,10 +4,8 @@ const fs = require('fs');
 const https = require('https');
 const mongoose = require('mongoose');
 
-const Role = require('./models/Role');
-
 // Import routes
-const apiRouter = require('./routes/api');
+const apiRouter = require('./app/routes/api');
 
 function redirectToHttps() {
     const app = express();
@@ -66,13 +64,6 @@ async function init() {
             );
         redirectToHttps();
     }
-
-    // Role.create(
-    //     new Role({
-    //         priority: 0,
-    //         name: 'banned'
-    //     })
-    // );
 }
 
 init();

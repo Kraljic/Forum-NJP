@@ -1,5 +1,5 @@
 app.component('profile', {
-    templateUrl: './pages/profile.template.html',
+    templateUrl: './app/pages/profile.template.html',
     controller: function ($state, $scope, $stateParams, AuthenticationService, ProfileService) {
         if (AuthenticationService.isAuthenticated() == false) {
             $state.go('login');
