@@ -3,22 +3,23 @@ const router = require('express').Router();
 const verifyToken = require('../verificators/verifyToken');
 const verifyRole = require('../verificators/verifyRole');
 
-const authRouter = require('./auth');
-const profileRouter = require('./profile');
-const sectionRouter = require('./section');
-const categoryRouter = require('./category');
-const threadRouter = require('./thread');
-const commentRouter = require('./comment');
-
-
 // Public API
-router.use('/user/', authRouter);
+router
+    .use('/user/', require('./auth'));
 
-//  Private API
-router.use('/profile/', [verifyToken, verifyRole('user')], profileRouter);
-router.use('/section/', [verifyToken, verifyRole('user')], sectionRouter);
-router.use('/category/', [verifyToken, verifyRole('user')], categoryRouter);
-router.use('/thread/', [verifyToken, verifyRole('user')], threadRouter);
-router.use('/comment/', [verifyToken, verifyRole('user')], commentRouter);
+// Private API Endpoints
+// Only users can see
+router
+    .use(verifyToken)
+    ;// .use('/me/', require('./me'));
 
-module.exports=router;
+// Only users with access level 'user' can see
+router
+    .use(verifyRole('user'))
+    .use('/profile/', require('./profile'))
+    .use('/section/', require('./section'))
+    .use('/category/', require('./category'))
+    .use('/thread/', require('./thread'))
+    .use('/comment/', require('./comment'));
+
+module.exports = router;
