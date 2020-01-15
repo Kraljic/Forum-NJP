@@ -1,7 +1,8 @@
 class AuthenticationService {
-    constructor($http, $state) {
+    constructor($http, $state, $rootScope) {
         this.http = $http;
         this.state = $state;
+        this.rootScope = $rootScope;
     }
 
     isAuthenticated() {
@@ -27,6 +28,8 @@ class AuthenticationService {
             .then(d => {
                 let authToken = d.headers().authorization;
                 this.loginWithToken(authToken);
+
+                this.rootScope.$broadcast('login');
             })
             .catch(d => {
                 alert('Wrong credentials: ' + d.data);
@@ -47,6 +50,7 @@ class AuthenticationService {
         delete this.http.defaults.headers.common.Authorization;
 
         this.state.go('login');
+        this.rootScope.$broadcast('logout');
     }
 
     parseJwt(token) {
