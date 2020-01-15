@@ -1,58 +1,67 @@
-<form name="c.userForm" ng-submit="c.submitForm()" novalidate>
-    <h1>Register</h1>
+<div class="row">
+    <div class="col-md-2 col-md-offset-5">
+        <form name="c.userForm" ng-submit="c.submitForm()" novalidate>
+            <h1>Register</h1>
 
-    <label for="username">
-        <b>Username:</b>
-    </label>
-    <br>
-    <span class="error-msg form-control" ng-show="!c.userForm.username.$pristine && c.usernameAvailable == false">
-        Sorry, this username is already taken
-    </span>
-    <span class="error-msg form-control" ng-show="!c.userForm.username.$pristine && !c.userForm.username.$valid">
-        Username must be between 4 and 45 characters long
-    </span>
-    <input type="text" name="username" placeholder="Username" class="form-control" ng-model="c.username"
-        ng-minlength="4"  ng-maxlength="45" ng-change="c.checkUsername(c.username)" ng-model-options="{debounce: 750}" required>
-    <br>
+            <label for="username">
+                <b>Username:</b>
+            </label>
+            <br>
+            <span class="error-msg form-control"
+                ng-show="!c.userForm.username.$pristine && c.usernameAvailable == false">
+                Sorry, this username is already taken
+            </span>
+            <span class="error-msg form-control"
+                ng-show="!c.userForm.username.$pristine && !c.userForm.username.$valid">
+                Username must be between 4 and 45 characters long
+            </span>
+            <input type="text" name="username" placeholder="Username" class="form-control" ng-model="c.username"
+                ng-minlength="4" ng-maxlength="45" ng-change="c.checkUsername(c.username)"
+                ng-model-options="{debounce: 750}" required>
+            <br>
 
-    <label for="password">
-        <b>Password:</b>
-    </label>
-    <br>
-    <span class="error-msg form-control" ng-show="!c.userForm.password.$pristine && !c.userForm.password.$valid">
-        Password is required and must be between 8 and 32 characters long
-    </span>
-    <input type="password" name="password" placeholder="Password" class="form-control" ng-minlength="8" ng-maxlength="32" ng-model="c.password" required>
-    <br>
+            <label for="password">
+                <b>Password:</b>
+            </label>
+            <br>
+            <span class="error-msg form-control"
+                ng-show="!c.userForm.password.$pristine && !c.userForm.password.$valid">
+                Password is required and must be between 8 and 32 characters long
+            </span>
+            <input type="password" name="password" placeholder="Password" class="form-control" ng-minlength="8"
+                ng-maxlength="32" ng-model="c.password" required>
+            <br>
 
-    <label for="password2">
-        <b>Password:</b>
-    </label>
-    <br>
-    <span class="error-msg form-control" ng-show="!c.userForm.password2.$pristine && c.password != c.password2">
-        Passwords don't match
-    </span>
-    <input type="password" name="password2" placeholder="Repeat password" class="form-control" ng-model="c.password2"
-        required>
-    <br>
+            <label for="password2">
+                <b>Password:</b>
+            </label>
+            <br>
+            <span class="error-msg form-control" ng-show="!c.userForm.password2.$pristine && c.password != c.password2">
+                Passwords don't match
+            </span>
+            <input type="password" name="password2" placeholder="Repeat password" class="form-control"
+                ng-model="c.password2" required>
+            <br>
 
-    <label for="email">
-        <b>E-mail:</b>
-    </label>
-    <br>
-    <span class="error-msg form-control" ng-show="!c.userForm.email.$pristine && c.emailAvailable == false">
-        Sorry, an user with that email address already exists
-    </span>
-    <span class="error-msg form-control" ng-show="!c.userForm.email.$pristine && !c.userForm.email.$valid">
-        Invalid e-mail address, must be less than 128 characters long
-    </span>
-    <input type="email" name="email" placeholder="E-mail" class="form-control" ng-maxlength="128" ng-model="c.email"
-        ng-change="c.checkEmail(c.email)" ng-model-options="{debounce: 750}" required>
-    <br>
-    <br>
+            <label for="email">
+                <b>E-mail:</b>
+            </label>
+            <br>
+            <span class="error-msg form-control" ng-show="!c.userForm.email.$pristine && c.emailAvailable == false">
+                Sorry, an user with that email address already exists
+            </span>
+            <span class="error-msg form-control" ng-show="!c.userForm.email.$pristine && !c.userForm.email.$valid">
+                Invalid e-mail address, must be less than 128 characters long
+            </span>
+            <input type="email" name="email" placeholder="E-mail" class="form-control" ng-maxlength="128"
+                ng-model="c.email" ng-change="c.checkEmail(c.email)" ng-model-options="{debounce: 750}" required>
+            <br>
+            <br>
 
-    <input name="submit" type="submit" value="Register!" class="btn btn-success" class="form-control"
-        ng-disabled="!c.isFormValid()">
-</form>
-<br>
-<a ui-sref="login">Back to login form</a>
+            <input name="submit" type="submit" value="Register!" class="btn btn-success" class="form-control"
+                ng-disabled="!c.isFormValid()">
+        </form>
+        <br>
+        <a ui-sref="login">Back to login form</a>
+    </div>
+</div>

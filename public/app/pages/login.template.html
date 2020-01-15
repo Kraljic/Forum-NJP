@@ -1,21 +1,26 @@
-<form name="c.loginForm" ng-submit="c.login()">
-    <h1>Login</h1>
+<div class="row">
+    <div class="col-md-2 col-md-offset-5">
+        <form name="c.loginForm" ng-submit="c.login()">
+            <h1>Login</h1>
 
-    <label for="username">
-        <b>Username:</b>
-    </label>
-    <br>
-    <input type="text" ng-model="c.credentials.username" placeholder="Username" class="form-control" required>
-    <br>
+            <label for="username">
+                <b>Username:</b>
+            </label>
+            <br>
+            <input type="text" ng-model="c.credentials.username" placeholder="Username" class="form-control" required>
+            <br>
 
-    <label for="password">
-        <b>Password:</b>
-    </label>
-    <br>
-    <input type="password" ng-model="c.credentials.password" placeholder="Password" class="form-control" required>
-    <br>
-    <br>
-    
-    <button type="submit" class="btn btn-success" class="form-control">Login!</button>
-    <button ng-click="c.register()" class="btn btn-warning" class="form-control">Register!</button>
-</form>
+            <label for="password">
+                <b>Password:</b>
+            </label>
+            <br>
+            <input type="password" ng-model="c.credentials.password" placeholder="Password" class="form-control"
+                required>
+            <br>
+            <br>
+
+            <button type="submit" class="btn btn-success" class="form-control">Login!</button>
+            <button ng-click="c.register()" class="btn btn-warning" class="form-control">Register!</button>
+        </form>
+    </div>
+</div>
