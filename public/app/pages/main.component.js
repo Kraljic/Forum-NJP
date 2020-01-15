@@ -5,10 +5,10 @@ app.component('main', {
             $state.go('login');
             return;     
         }
-        if (AuthorizationService.isBanned()) {
-            alert('Your account has been banned!');
-            
+
+        if (AuthorizationService.isBanned()) {            
             AuthenticationService.logout();
+            alert('Your account has been banned!');
             return;
         }
         

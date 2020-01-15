@@ -2,19 +2,19 @@ app.component('navBar', {
     templateUrl: './app/components/navBar.template.html',
     controller: function ($state, $rootScope, AuthenticationService, AuthorizationService) {
         $rootScope.$on('login', () => {
-            this.setUserDate();
+            this.setUserData();
             $rootScope.$apply()
         });
         $rootScope.$on('logout', () => {
-            this.setUserDate();
+            this.setUserData();
             this.user = null;
             $rootScope.$apply()
         });
         this.$onInit = function () {
-            this.setUserDate();
+            this.setUserData();
         }
 
-        this.setUserDate = function () {
+        this.setUserData = function () {
             this.user = AuthenticationService.getUser();
             this.isModerator = AuthorizationService.isModerator();
             this.isAdmin = AuthorizationService.isAdmin();
