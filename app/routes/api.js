@@ -22,4 +22,11 @@ router
     .use('/thread/', require('./thread'))
     .use('/comment/', require('./comment'));
 
+
+// Only admin can access this API
+router
+    .use(verifyRole('admin'))
+    .use('/users/', require('./users'));
+
+
 module.exports = router;

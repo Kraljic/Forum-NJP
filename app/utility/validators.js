@@ -209,6 +209,22 @@ module.exports = {
             return res.status(400).send({ error: validatin.error.details[0].message });
 
         next();
+    },
+    
+    validateRolePutRequest: function (req, res, next) {
+        const schema = {
+            role: Joi
+                .string()
+                .trim()
+                .valid('admin', 'moderator', 'user', 'banned')
+                .required()
+        };
+
+        const validatin = Joi.validate(req.body, schema);
+        if (validatin.error)
+            return res.status(400).send({ error: validatin.error.details[0].message });
+
+        next();
     }
 }
 
