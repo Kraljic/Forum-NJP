@@ -4,15 +4,15 @@ app.component('userManagement', {
         this.$onInit = function () {
             UsersService.getUsers().then(d => {
                 this.users = d.data;
-                $scope.$apply();
             });
         }
         this.roles = ['admin', 'moderator', 'user', 'banned'];
 
         this.selectedRoleChanged = function (userRole) {
-            console.log(userRole);
-
-            UsersService.changeUserRole(userRole.user._id, { role: userRole.role });
+            UsersService.changeUserRole(userRole.user._id, { role: userRole.role })
+                .catch(err => {
+                    alert("Whoops.. Something went wrong:\n" + err.data.error)
+                });
         }
 
     },
