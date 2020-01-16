@@ -1,6 +1,11 @@
 app.component('administration', {
     templateUrl: './app/pages/administration.template.html',
     controller: function ($state, AuthenticationService, AuthorizationService) {
+        if (AuthenticationService.isAuthenticated() == false) {
+            $state.go('login');
+            return;     
+        }
+        
         if (AuthorizationService.isModerator() == false) {
             $state.go('main');
             return;
