@@ -11,21 +11,20 @@
 Datoteka bi trebala sadrzavati sljedece elemente:
 
 #### Application port / linux iptables for port 80/443
-PORT=<HTTP_PORT>
-SSL_PORT=<HTTPS_PORT>
+  - PORT=<HTTP_PORT>
+  - SSL_PORT=<HTTPS_PORT>
 #### Application static content (index.html, etc...)
-PUBLIC_FOLDER = ./public/
+  - PUBLIC_FOLDER = ./public/
 
 #### MongoDB connection string
-DB_CONNECT = <MONGODB_URL>
+  - DB_CONNECT = <MONGODB_URL>
 
 #### JWT Token secret
-JWT_TOKEN_SECRET = <JWT_SECRET>
+  - JWT_TOKEN_SECRET = <JWT_SECRET>
 
 #### SSL
-   SSL_CERT = ./ssl/fullchain.pem
-   
-   SSL_KEY = ./ssl/privkey.pem
+  - SSL_CERT = ./ssl/fullchain.pem
+  - SSL_KEY = ./ssl/privkey.pem
  
  ## Pokretanje
  Server se moze pokrenuti u dva nacina rada:
