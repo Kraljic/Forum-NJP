@@ -23,5 +23,7 @@ DB_CONNECT = <MONGODB_URL>
 JWT_TOKEN_SECRET = <JWT_SECRET>
 
 ### SSL
-SSL_CERT = ./ssl/fullchain.pem
-SSL_KEY = ./ssl/privkey.pem
+  SSL_CERT = ./ssl/fullchain.pem
+  
+  SSL_KEY = ./ssl/privkey.pem
+ 
