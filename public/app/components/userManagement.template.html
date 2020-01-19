@@ -9,7 +9,7 @@
             </tr>
             <tr ng-repeat="user in c.users">
                 <td>{{user._id}}</td>
-                <td>{{user.username}}</td>
+                <td><a ui-sref="profile({userId: user._id})">{{user.username}}</a></td>
                 <td>{{user.email}}</td>
                 <td>
                     <select data-ng-options="role for role in c.roles" data-ng-model="selectedRole"
