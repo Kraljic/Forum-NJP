@@ -1,20 +1,9 @@
 pipeline {
-  agent {
-    node {
-      label 'Node'
-    }
-
-  }
+  agent any
   stages {
     stage('Npm Install') {
       steps {
         powershell 'npm install'
-      }
-    }
-
-    stage('Npm Start') {
-      steps {
-        powershell 'npm start'
       }
     }
 
