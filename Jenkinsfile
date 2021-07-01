@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('Npm Install') {
+    stage('') {
       steps {
-        powershell 'npm install'
+        sh 'npm install'
       }
     }
 
